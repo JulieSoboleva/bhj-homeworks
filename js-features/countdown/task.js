@@ -29,4 +29,4 @@ setInterval(() => {
         location.assign('https://avatars.dzeninfra.ru/get-zen_doc/1708265/pub_5de628e81e8e3f00b2d1e090_5de629bdd5bbc300ae3be52a/scale_1200');
         stop = true;
     }
-}, 100)
+}, 1000)
