@@ -1,34 +1,24 @@
-const input = document.getElementById('task__input')
-const btn = document.getElementById('tasks__add')
-let taskList = document.querySelector('.tasks__list')
+const input = document.getElementById('task__input');
+const btn = document.getElementById('tasks__add');
+let tasksList = document.querySelector('.tasks__list');
 
-function addTask(event) {
+btn.addEventListener('click', (event) => {
     event.preventDefault();
     if (input.value.trim() === '') {
         return;
     }
-    let div = document.createElement('div');
-    div.classList.add('task');
-    taskList.appendChild(div);
-    let title = document.createElement('div');
-    title.classList.add('task__title');
-    title.textContent = input.value;
-    div.appendChild(title);
-    let a = document.createElement('a');
-    a.setAttribute('href', '#');
-    a.setAttribute('class', 'task__remove');
-    a.innerHTML = '&times;';
+    tasksList.insertAdjacentHTML('beforeEnd', `
+        <div class="task">
+        <div class="task__title">
+            ${input.value}
+        </div>
+        <a href="#" class="task__remove">&times;</a>
+        </div>
+    `);
+    input.value = '';
+    const a = tasksList.lastElementChild.querySelector('.task__remove');
     a.addEventListener('click', (e) => {
         e.preventDefault();
         a.parentElement.remove();
     });
-    div.appendChild(a);
-}
-
-input.addEventListener('onkeyup', (e) => {
-    if (e.keyCode == 13 && input.value.trim() !== '') {
-        btn.click();
-    }
 });
-
-btn.addEventListener('click', addTask);

@@ -10,7 +10,7 @@ elems.forEach(elem => {
         div.style.left = String(left) + 'px';
         div.style.top = String(top + fontSize + 3) + 'px';
         const title = elem.getAttribute('title');
-        div.classList.add('tooltip_active');
+        div.classList.toggle('tooltip_active');
         div.textContent = title;
         elem.parentElement.insertBefore(div, elem);
     })
