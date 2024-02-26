@@ -1,6 +1,7 @@
 const signin = document.getElementById('signin');
 const form = document.getElementById('signin__form');
 const welcome = document.getElementById('welcome');
+const controls = document.querySelectorAll('.control');
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -27,6 +28,9 @@ form.addEventListener('submit', (event) => {
                 document.getElementById('user_id').textContent = data['user_id'];
                 welcome.classList.add('welcome_active');
             } else {
+                controls.forEach(input => {
+                    input.value = '';
+                });
                 alert('Неверные логин/пароль');
             }
         }
