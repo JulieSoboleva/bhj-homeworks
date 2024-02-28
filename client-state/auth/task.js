@@ -1,38 +1,31 @@
-const signin = document.getElementById('signin');
 const form = document.getElementById('signin__form');
-const welcome = document.getElementById('welcome');
-const controls = document.querySelectorAll('.control');
+const userStorage = localStorage.getItem('user_id');
+
+// localStorage.removeItem('user_id');
+if (userStorage) {
+    show_greeting(userStorage);
+}
+
+function show_greeting(user_id) {
+    document.getElementById('signin').classList.remove('signin_active');
+    document.getElementById('user_id').textContent = user_id;
+    document.getElementById('welcome').classList.add('welcome_active');
+}
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData(form);
     let xhr = new XMLHttpRequest();
-    xhr.onloadstart = function () {
-        console.log('Начало запроса');
-    }
 
-    xhr.upload.onload = function () {
-        console.log('Данные загружены');
-    }
-
-    xhr.upload.onerror = function () {
-        console.log('Произошла ошибка при загрузке данных на сервер!');
-    }
-
-    xhr.addEventListener('readystatechange', () => {
-        if (xhr.readyState === xhr.DONE) {
-            const data = xhr.response;
-            console.log(data);
-            if (data['success']) {
-                signin.classList.remove('signin_active');
-                document.getElementById('user_id').textContent = data['user_id'];
-                welcome.classList.add('welcome_active');
-            } else {
-                controls.forEach(input => {
-                    input.value = '';
-                });
-                alert('Неверные логин/пароль');
-            }
+    xhr.onload = (() => {
+        const data = xhr.response;
+        console.log(data);
+        if (data['success']) {
+            show_greeting(data['user_id']);
+            localStorage.setItem('user_id', data['user_id']);
+        } else {
+            form.reset();
+            alert('Неверные логин/пароль');
         }
     });
 
